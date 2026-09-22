@@ -1,9 +1,9 @@
 {
-  "name":"GCB Estonia Training Attendance",
-  "short_name":"GCB Attendance",
-  "start_url":"./",
-  "display":"standalone",
-  "background_color":"#f5f7fb",
-  "theme_color":"#ffffff",
-  "icons":[]
+  "name": "GCB Estonia — Training Attendance",
+  "short_name": "GCB Attendance",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#ffffff",
+  "icons": [{"src":"assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
 }

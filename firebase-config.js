@@ -1,6 +1,7 @@
-// Вставьте сюда настройки Firebase Web App из Firebase Console.
-// Если оставить как есть, приложение работает локально на одном устройстве.
-export const firebaseConfig = {
+// Вставьте сюда firebaseConfig из Firebase Console → Project settings → Your apps → Web app.
+// Пока enabled:false, приложение полностью работает локально в браузере.
+export const FIREBASE_CONFIG = {
+  enabled: false,
   apiKey: "",
   authDomain: "",
   projectId: "",

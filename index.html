@@ -4,28 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>GCB Estonia — Training Attendance</title>
   <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div id="authOverlay" class="overlay hidden" aria-live="polite">
     <div class="auth-card">
-      <div class="brand compact">
-        <div class="logo-mark"><span>GCB</span><b>ESTONIA</b></div>
-        <div>
-          <div class="brand-title">TRAINING ATTENDANCE</div>
-          <div class="brand-sub">PEOPLE · DISCIPLINE · COMMUNITY</div>
+      <div class="brand brand-auth">
+        <div class="gcb-logo" aria-label="GCB Estonia">
+          <div class="gcb-word"><b>GCB</b><span>ESTONIA</span></div>
+          <svg viewBox="0 0 120 70" aria-hidden="true"><path d="M16 10v19c0 25 18 37 44 37s44-12 44-37V10M16 29c-8 0-10 7-10 13 0 7 5 10 12 10M104 29c8 0 10 7 10 13 0 7-5 10-12 10M36 60c1 7 5 10 11 10 5 0 8-2 10-5M84 60c-1 7-5 10-11 10-5 0-8-2-10-5"/></svg>
         </div>
+        <div class="brand-copy"><div class="brand-title">TRAINING ATTENDANCE</div><div class="brand-sub">PEOPLE · DISCIPLINE · COMMUNITY</div></div>
       </div>
-      <h2>Вход</h2>
-      <p class="muted">Один аккаунт = одинаковые данные на телефоне и компьютере.</p>
-      <label>Email<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" /></label>
-      <label>Пароль<input id="authPassword" type="password" autocomplete="current-password" placeholder="Минимум 6 символов" /></label>
-      <div class="auth-actions">
-        <button id="signInBtn" class="btn primary">Войти</button>
-        <button id="signUpBtn" class="btn secondary">Создать аккаунт</button>
-      </div>
+      <h2>Вход в GCB Attendance</h2>
+      <p class="muted">Один аккаунт — одна база данных на телефоне и компьютере.</p>
+      <label class="form-label">Email<input id="authEmail" class="text-input" type="email" autocomplete="email" placeholder="you@example.com" /></label>
+      <label class="form-label">Пароль<input id="authPassword" class="text-input" type="password" autocomplete="current-password" placeholder="Минимум 6 символов" /></label>
+      <div class="auth-actions"><button id="signInBtn" class="btn primary">Войти</button><button id="signUpBtn" class="btn secondary">Создать аккаунт</button></div>
+      <button id="continueLocalBtn" class="btn ghost full">Продолжить локально</button>
       <div id="authMsg" class="form-msg"></div>
     </div>
   </div>
@@ -33,26 +34,27 @@
   <main class="app-shell">
     <header class="topbar">
       <div class="brand">
-        <div class="logo-mark"><span>GCB</span><b>ESTONIA</b></div>
-        <div>
-          <div class="brand-title">TRAINING ATTENDANCE</div>
-          <div class="brand-sub">PEOPLE · DISCIPLINE · COMMUNITY</div>
+        <div class="gcb-logo" aria-label="GCB Estonia">
+          <div class="gcb-word"><b>GCB</b><span>ESTONIA</span></div>
+          <svg viewBox="0 0 120 70" aria-hidden="true"><path d="M16 10v19c0 25 18 37 44 37s44-12 44-37V10M16 29c-8 0-10 7-10 13 0 7 5 10 12 10M104 29c8 0 10 7 10 13 0 7-5 10-12 10M36 60c1 7 5 10 11 10 5 0 8-2 10-5M84 60c-1 7-5 10-11 10-5 0-8-2-10-5"/></svg>
         </div>
+        <div class="brand-copy"><div class="brand-title">TRAINING ATTENDANCE</div><div class="brand-sub">PEOPLE · DISCIPLINE · COMMUNITY</div></div>
       </div>
-      <div id="syncBadge" class="sync-badge local">● Локально</div>
+      <div id="syncBadge" class="sync-badge local"><span class="sync-dot"></span><span>Локально</span></div>
     </header>
 
     <section id="view" class="view"></section>
 
     <nav class="bottom-nav" aria-label="Навигация">
-      <button data-nav="attendance" class="nav-item active"><span>⌂</span><small>Главная</small></button>
-      <button data-nav="groups" class="nav-item"><span>👥</span><small>Группы</small></button>
-      <button data-nav="children" class="nav-item"><span>♙</span><small>Дети</small></button>
-      <button data-nav="more" class="nav-item"><span>•••</span><small>Ещё</small></button>
+      <button data-nav="attendance" class="nav-item active"><span class="nav-icon">⌂</span><small>Главная</small></button>
+      <button data-nav="groups" class="nav-item"><span class="nav-icon">♟</span><small>Группы</small></button>
+      <button data-nav="children" class="nav-item"><span class="nav-icon">♙</span><small>Дети</small></button>
+      <button data-nav="more" class="nav-item"><span class="nav-icon">•••</span><small>Ещё</small></button>
     </nav>
   </main>
 
   <dialog id="modal" class="modal"></dialog>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
   <script type="module" src="app.js"></script>
 </body>
 </html>
