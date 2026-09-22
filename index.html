@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Тренировка — посещаемость</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#172033;--muted:#718096;--line:#e6e9ef;--green:#16a34a;--red:#dc2626;--blue:#2563eb}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+.app{max-width:620px;margin:auto;min-height:100vh;padding-bottom:88px}
+header{background:#111827;color:#fff;padding:22px 18px 18px;position:sticky;top:0;z-index:5}
+h1{font-size:25px;margin:0 0 5px}.sub{color:#cbd5e1;font-size:14px}
+.controls{display:flex;gap:8px;margin-top:16px}.controls input{flex:1;min-width:0;border:0;border-radius:12px;padding:12px;font-size:16px;background:#fff;color:#172033}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 14px 4px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px;text-align:center}.num{font-size:22px;font-weight:800}.label{font-size:12px;color:var(--muted);margin-top:3px}
+.list{padding:10px 14px}.student{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:10px 0;padding:15px;box-shadow:0 2px 8px #00000008}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}.name{font-size:18px;font-weight:750}.rate{font-weight:800;font-size:14px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.btn{border:0;border-radius:13px;padding:12px;font-size:15px;font-weight:700;cursor:pointer}.present{background:#dcfce7;color:#166534}.absent{background:#fee2e2;color:#991b1b}.activeP{background:var(--green);color:#fff}.activeA{background:var(--red);color:#fff}
+.meta{color:var(--muted);font-size:13px;margin-top:6px}.note{margin-top:9px;color:#475569;font-size:13px}.selectedDate{font-size:13px;color:#475569;margin-top:10px}
+.fab{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border:0;border-radius:50%;background:#111827;color:#fff;font-size:28px;box-shadow:0 8px 25px #0003;cursor:pointer}
+@media(min-width:650px){.fab{right:calc(50% - 290px)}}
+.modal{display:none;position:fixed;inset:0;background:#0007;z-index:10;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-width:620px;margin:auto;border-radius:24px 24px 0 0;padding:20px;max-height:90vh;overflow:auto}
+.field{margin:12px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input,.field textarea{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;font-size:16px}.field textarea{min-height:80px}.modalBtns{display:flex;gap:8px;margin-top:15px}.modalBtns .btn{flex:1}.primary{background:#111827;color:#fff}.secondary{background:#eef2f7;color:#111827}.danger{background:#fee2e2;color:#991b1b}.ghost{background:#fff;color:#475569;border:1px solid var(--line)}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.dataTools{padding:2px 14px 14px}.dataCard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.dataTitle{font-size:15px;font-weight:800;margin-bottom:9px}.dataText{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:10px}.dataActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fileInput{display:none}.status{font-size:12px;color:var(--muted);margin-top:8px;min-height:16px}
+@media(max-width:390px){.summary{gap:7px;padding-left:10px;padding-right:10px}.stat{padding:11px 7px}.num{font-size:19px}.controls{flex-direction:column}.dataActions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>Посещаемость</h1><div class="sub" id="dateLabel"></div>
+  <div class="controls"><input id="datePicker" type="date" aria-label="Выбрать дату"><input id="search" placeholder="Поиск студента" aria-label="Поиск студента"></div>
+</header>
+<section class="summary">
+  <div class="stat"><div class="num" id="total">0</div><div class="label">Студентов</div></div>
+  <div class="stat"><div class="num" id="came">0</div><div class="label">Пришли</div></div>
+  <div class="stat"><div class="num" id="rate">0%</div><div class="label">Посещаемость</div></div>
+</section>
+<main class="list" id="list"></main>
+<section class="dataTools">
+ <div class="dataCard">
+  <div class="dataTitle">Резервная копия</div>
+  <div class="dataText">Сохрани копию данных в файл. Её можно использовать для восстановления после переустановки или переноса приложения.</div>
+  <div class="dataActions">
+   <button class="btn secondary" id="backupBtn">Скачать копию</button>
+   <button class="btn secondary" id="restoreBtn">Восстановить</button>
+  </div>
+  <input class="fileInput" id="restoreFile" type="file" accept="application/json,.json">
+  <div class="status" id="dbStatus"></div>
+ </div>
+</section>
+<button class="fab" id="addBtn" aria-label="Добавить студента">+</button>
+</div>
+
+<div class="modal" id="modal">
+ <div class="sheet">
+  <h2 id="modalTitle">Добавить студента</h2>
+  <input type="hidden" id="editId">
+  <div class="field"><label>Имя студента</label><input id="name" placeholder="Например: Али"></div>
+  <div class="field"><label>Телефон родителя</label><input id="phone" type="tel" placeholder="+372 ..."></div>
+  <div class="field"><label>Заметка</label><textarea id="note" placeholder="Например: группа 18:00"></textarea></div>
+  <div class="modalBtns"><button class="btn secondary" id="cancelBtn">Отмена</button><button class="btn primary" id="saveBtn">Сохранить</button></div>
+  <button id="deleteBtn" class="btn danger" style="display:none;width:100%;margin-top:8px">Удалить студента</button>
+ </div>
+</div>
+
+<script>
+const DB_NAME='training-attendance-db';
+const DB_VERSION=1;
+const STORE='app';
+const STATE_KEY='state';
+let db=null;
+let data={students:[]};
+let selectedDate=localDateKey(new Date());
+
+const $=id=>document.getElementById(id);
+
+function localDateKey(d){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function parseDateKey(key){
+  const [y,m,d]=String(key).split('-').map(Number);
+  return new Date(y,m-1,d);
+}
+function formatDate(key){
+  const d=parseDateKey(key);
+  if(Number.isNaN(d.getTime())) return key;
+  return d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+function monthPrefix(key){return String(key).slice(0,7)}
+function makeId(){return crypto?.randomUUID?crypto.randomUUID():String(Date.now())+'-'+Math.random().toString(16).slice(2)}
+function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  const req=indexedDB.open(DB_NAME,DB_VERSION);
+  req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE)};
+  req.onsuccess=()=>{db=req.result;resolve(db)};
+  req.onerror=()=>reject(req.error);
+ });
+}
+function dbGet(key){
+ return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly'),r=tx.objectStore(STORE).get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)});
+}
+function dbSet(key,value){
+ return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)});
+}
+async function save(){
+ try{await dbSet(STATE_KEY,data);$('dbStatus').textContent='Данные сохранены на устройстве.'}
+ catch(e){console.error(e);$('dbStatus').textContent='Ошибка сохранения данных.'}
+}
+function normaliseState(raw){
+ const out={students:[]};
+ if(raw&&Array.isArray(raw.students)){
+  out.students=raw.students.map(s=>({id:String(s.id||makeId()),name:String(s.name||''),phone:String(s.phone||''),note:String(s.note||''),attendance:(s.attendance&&typeof s.attendance==='object')?s.attendance:{}})).filter(s=>s.name);
+ }
+ return out;
+}
+function migrateLegacy(){
+ try{
+  const old1=JSON.parse(localStorage.getItem('training-attendance-v1')||'null');
+  if(old1?.students?.length)return normaliseState(old1);
+  const old4=JSON.parse(localStorage.getItem('attendanceV4')||'null');
+  if(old4?.children?.length)return {students:old4.children.map(c=>({id:String(c.id||makeId()),name:String(c.name||''),phone:'',note:String(c.comment||''),attendance:{}})).filter(s=>s.name)};
+ }catch(e){console.warn('Legacy migration skipped',e)}
+ return null;
+}
+async function init(){
+ try{
+  await openDB();
+  const stored=await dbGet(STATE_KEY);
+  if(stored){data=normaliseState(stored)}else{data=migrateLegacy()||{students:[]};await save()}
+  $('datePicker').value=selectedDate;
+  $('search').addEventListener('input',render);
+  $('datePicker').addEventListener('change',()=>{if($('datePicker').value){selectedDate=$('datePicker').value;render()}});
+  $('addBtn').addEventListener('click',()=>openModal());
+  $('cancelBtn').addEventListener('click',closeModal);
+  $('saveBtn').addEventListener('click',saveStudent);
+  $('deleteBtn').addEventListener('click',deleteStudent);
+  $('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
+  $('backupBtn').addEventListener('click',backupData);
+  $('restoreBtn').addEventListener('click',()=>$('restoreFile').click());
+  $('restoreFile').addEventListener('change',restoreData);
+  render();
+ }catch(e){console.error(e);$('dbStatus').textContent='Не удалось открыть локальную базу данных.';alert('Не удалось открыть базу данных на этом устройстве.')}
+}
+function render(){
+ $('dateLabel').textContent=formatDate(selectedDate);
+ const q=$('search').value.trim().toLowerCase();
+ const list=data.students.filter(s=>s.name.toLowerCase().includes(q));
+ $('total').textContent=data.students.length;
+ const came=data.students.filter(s=>s.attendance?.[selectedDate]==='p').length;
+ const absent=data.students.filter(s=>s.attendance?.[selectedDate]==='a').length;
+ $('came').textContent=came;
+ $('rate').textContent=(came+absent?Math.round(came/(came+absent)*100):0)+'%';
+ const el=$('list');el.innerHTML='';
+ if(!list.length){el.innerHTML='<div class="empty">Пока нет студентов.<br>Нажми «+», чтобы добавить.</div>';return}
+ const currentMonth=monthPrefix(selectedDate);
+ list.forEach(s=>{
+   let p=0,a=0;
+   Object.entries(s.attendance||{}).forEach(([k,v])=>{if(k.startsWith(currentMonth)){if(v==='p')p++;if(v==='a')a++}});
+   const r=p+a?Math.round(p/(p+a)*100):0;
+   const status=s.attendance?.[selectedDate];
+   const div=document.createElement('div');div.className='student';
+   div.innerHTML=`<div class="top"><div><div class="name">${esc(s.name)}</div><div class="meta">${s.phone?esc(s.phone):'Телефон не указан'}</div></div><div class="rate">${r}%</div></div>
+   ${s.note?`<div class="note">📝 ${esc(s.note)}</div>`:''}
+   <div class="selectedDate">Отметка: ${esc(formatDate(selectedDate))}</div>
+   <div class="actions"><button class="btn ${status==='p'?'activeP':'present'}" data-action="mark" data-id="${esc(s.id)}" data-status="p">✓ Пришёл</button><button class="btn ${status==='a'?'activeA':'absent'}" data-action="mark" data-id="${esc(s.id)}" data-status="a">✕ Отсутствует</button></div>
+   ${status?`<button class="btn ghost" style="width:100%;margin-top:8px" data-action="clear" data-id="${esc(s.id)}">Сбросить отметку за этот день</button>`:''}
+   <button class="btn secondary" style="width:100%;margin-top:8px" data-action="edit" data-id="${esc(s.id)}">✏️ Изменить</button>
+   <button class="btn danger" style="width:100%;margin-top:8px" data-action="delete" data-id="${esc(s.id)}">Удалить студента</button>`;
+   el.appendChild(div);
+ });
+ el.querySelectorAll('[data-action]').forEach(btn=>btn.addEventListener('click',async()=>{
+   const id=btn.dataset.id,action=btn.dataset.action;
+   if(action==='mark') await mark(id,btn.dataset.status);
+   if(action==='clear') await clearAttendance(id);
+   if(action==='edit') openModal(id);
+   if(action==='delete') await deleteStudentById(id);
+ }));
+}
+async function mark(id,status){
+ const s=data.students.find(x=>x.id===id);if(!s)return;
+ if(!s.attendance)s.attendance={};s.attendance[selectedDate]=status;await save();render();
+}
+async function clearAttendance(id){
+ const s=data.students.find(x=>x.id===id);if(!s?.attendance)return;
+ delete s.attendance[selectedDate];await save();render();
+}
+function openModal(id=null){
+ $('modal').classList.add('show');$('editId').value=id||'';$('modalTitle').textContent=id?'Изменить студента':'Добавить студента';$('deleteBtn').style.display=id?'block':'none';
+ const s=id&&data.students.find(x=>x.id===id);$('name').value=s?.name||'';$('phone').value=s?.phone||'';$('note').value=s?.note||'';
+}
+function closeModal(){$('modal').classList.remove('show')}
+async function saveStudent(){
+ const name=$('name').value.trim();if(!name)return alert('Введите имя студента');
+ const id=$('editId').value,s=id&&data.students.find(x=>x.id===id);
+ if(s){s.name=name;s.phone=$('phone').value.trim();s.note=$('note').value.trim()}
+ else data.students.push({id:makeId(),name,phone:$('phone').value.trim(),note:$('note').value.trim(),attendance:{}});
+ await save();closeModal();render();
+}
+async function deleteStudent(){const id=$('editId').value;if(id)await deleteStudentById(id,true)}
+async function deleteStudentById(id,closeAfter=false){
+ const s=data.students.find(x=>x.id===id);if(!s)return;
+ if(confirm(`Удалить студента «${s.name}»? Все его отметки посещаемости тоже будут удалены.`)){
+  data.students=data.students.filter(x=>x.id!==id);await save();if(closeAfter)closeModal();render();
+ }
+}
+function backupData(){
+ const payload={app:'training-attendance',version:2,exportedAt:new Date().toISOString(),data};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`attendance-backup-${localDateKey(new Date())}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ $('dbStatus').textContent='Резервная копия создана.';
+}
+async function restoreData(e){
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const parsed=JSON.parse(await file.text());
+  const raw=parsed?.data?.students?parsed.data:parsed;
+  const restored=normaliseState(raw);
+  if(!Array.isArray(restored.students))throw new Error('Bad backup');
+  if(!confirm(`Восстановить резервную копию? Текущие данные будут заменены. Студентов в копии: ${restored.students.length}.`)){e.target.value='';return}
+  data=restored;await save();render();$('dbStatus').textContent='Данные восстановлены из резервной копии.';
+ }catch(err){console.error(err);alert('Не удалось восстановить файл. Выберите резервную копию в формате JSON.')}
+ e.target.value='';
+}
+
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+init();
+</script>
+</body></html>
