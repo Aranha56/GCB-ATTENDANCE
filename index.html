@@ -1,267 +1,58 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ffffff">
-<link rel="manifest" href="manifest.webmanifest">
-<title>GCB Estonia — Training Attendance</title>
-<style>
-:root{
-  --bg:#ffffff;--card:#fff;--text:#182033;--muted:#718096;--line:#dfe4ec;
-  --red:#be111b;--red-soft:#fff1f2;--green:#2ca64a;--green-soft:#e7f7eb;
-  --blue:#2672ea;--dark:#536078;--shadow:0 1px 2px rgba(16,24,40,.04)
-}
-*{box-sizing:border-box}
-html,body{margin:0;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
-button,input,select,textarea{font:inherit}
-.app{max-width:760px;margin:0 auto;min-height:100vh;padding-bottom:28px;background:#fff}
-.brand{background:#fff;padding:28px 22px 24px;border-bottom:1px solid var(--line)}
-.brandRow{display:flex;align-items:center;gap:24px}
-.logo{display:flex;align-items:center;justify-content:flex-start;min-width:165px}
-.logoImage{display:block;width:150px;height:104px;object-fit:cover;object-position:50% 29%;background:#fff}
-.brandCopy{min-width:0}
-.brandTitle{font-size:19px;letter-spacing:.28em;font-weight:800;color:var(--dark);white-space:nowrap}
-.brandSub{margin-top:12px;font-size:11px;letter-spacing:.28em;color:#a1acbd;white-space:nowrap}
-.content{padding:24px 22px}
-h1{font-size:35px;line-height:1.05;margin:0 0 22px;font-weight:850;letter-spacing:-.02em}
-.filters{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.controlBox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 14px;min-height:58px;display:flex;align-items:center;box-shadow:var(--shadow)}
-.controlBox input,.controlBox select{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:18px;min-width:0}
-.addChild{width:100%;border:0;border-radius:15px;background:var(--red);color:#fff;font-size:19px;font-weight:800;padding:17px 18px;margin:4px 0 18px;cursor:pointer}
-.calendarCard{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px 16px;margin-bottom:18px;box-shadow:var(--shadow)}
-.calendarLabel{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
-.calendarInput{width:100%;border:0;outline:0;background:transparent;font-size:20px;color:var(--text);min-height:44px;padding:0}
-.selectedLabel{font-size:13px;color:var(--muted);margin-top:6px}
-.tableCard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
-.tableHead,.studentRow{display:grid;grid-template-columns:34px minmax(115px,1.5fr) minmax(88px,1fr) 96px 58px;align-items:center;gap:8px}
-.tableHead{padding:14px 12px;background:#fbfcfe;color:#4e5a70;font-weight:800;font-size:14px;border-bottom:1px solid var(--line)}
-.studentRow{padding:15px 12px;border-bottom:1px solid var(--line);min-height:82px}
-.studentRow:last-child{border-bottom:0}
-.idx{font-size:17px;color:#20283a}
-.name{font-size:17px;font-weight:800;line-height:1.16;word-break:break-word}
-.groupTag{display:inline-flex;align-items:center;justify-content:center;background:var(--green-soft);border-radius:11px;padding:8px 10px;font-weight:800;font-size:12px;letter-spacing:.05em;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.attendanceBtns{display:flex;gap:6px;align-items:center}
-.markBtn{width:38px;height:38px;border-radius:50%;border:2px solid #d4dbe6;background:#fff;color:#9aa5b5;font-size:21px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
-.markBtn.present.active{background:var(--green);border-color:var(--green);color:#fff}
-.markBtn.absent.active{background:#e62d35;border-color:#e62d35;color:#fff}
-.totalRate{font-weight:850;font-size:14px;text-align:center}
-.rowActions{grid-column:2 / -1;display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.smallBtn{border:1px solid var(--line);background:#fff;color:#4e5a70;border-radius:9px;padding:7px 9px;font-size:12px;font-weight:700;cursor:pointer}
-.smallBtn.danger{color:#a51d26;background:#fff5f5;border-color:#f2c9cc}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
-.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}
-.stat .num{font-size:20px;font-weight:850}.stat .label{font-size:11px;color:var(--muted);margin-top:3px}
-.empty{padding:38px 18px;text-align:center;color:var(--muted)}
-.dataCard{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;margin-top:18px}
-.dataTitle{font-weight:850;font-size:15px}.dataText{font-size:12px;color:var(--muted);line-height:1.45;margin:7px 0 11px}
-.dataActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toolBtn{border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--text);padding:11px;font-weight:750;cursor:pointer}.fileInput{display:none}.status{font-size:12px;color:var(--muted);margin-top:8px;min-height:15px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-width:760px;margin:0 auto;border-radius:24px 24px 0 0;padding:20px;max-height:90vh;overflow:auto}.sheet h2{margin:0 0 14px}
-.field{margin:12px 0}.field label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:#fff}.field textarea{min-height:78px}.modalBtns{display:flex;gap:8px;margin-top:14px}.modalBtn{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800}.primary{background:var(--red);color:#fff}.secondary{background:#eef1f5;color:var(--text)}.deleteFull{width:100%;margin-top:9px;background:#fff0f1;color:#a51d26;border:1px solid #f2c9cc;border-radius:12px;padding:13px;font-weight:800}
-@media(max-width:600px){
-  .brand{padding:20px 18px 18px}.brandRow{gap:14px}.logo{min-width:145px}.logoImage{width:142px;height:98px}.brandTitle{font-size:16px;letter-spacing:.21em}.brandSub{font-size:9px;letter-spacing:.22em}
-  .content{padding:22px 14px}h1{font-size:32px}.filters{grid-template-columns:1fr 1fr}.controlBox input,.controlBox select{font-size:16px}
-  .tableHead,.studentRow{grid-template-columns:28px minmax(100px,1.25fr) minmax(76px,.9fr) 84px 50px;gap:6px}.tableHead{font-size:12px;padding:13px 8px}.studentRow{padding:14px 8px}.name{font-size:15px}.groupTag{font-size:10px;padding:7px 7px}.markBtn{width:34px;height:34px;font-size:19px}.totalRate{font-size:12px}
-}
-@media(max-width:390px){
-  .brandRow{align-items:center;gap:8px}.logo{min-width:118px}.logoImage{width:118px;height:82px}.brandTitle{font-size:13px;letter-spacing:.18em}.brandSub{font-size:8px;letter-spacing:.18em;margin-top:8px}
-  .filters{grid-template-columns:1fr}.tableCard{overflow-x:auto}.tableHead,.studentRow{min-width:520px}.summary{grid-template-columns:1fr 1fr 1fr;gap:6px}.stat{padding:10px 5px}.stat .num{font-size:18px}
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>GCB Estonia — Training Attendance</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<div class="app">
-  <section class="brand">
-    <div class="brandRow">
-      <div class="logo" aria-label="GCB Estonia">
-        <img class="logoImage" src="GCB-logo.png" alt="GCB Estonia">
+  <div id="authOverlay" class="overlay hidden" aria-live="polite">
+    <div class="auth-card">
+      <div class="brand compact">
+        <div class="logo-mark"><span>GCB</span><b>ESTONIA</b></div>
+        <div>
+          <div class="brand-title">TRAINING ATTENDANCE</div>
+          <div class="brand-sub">PEOPLE · DISCIPLINE · COMMUNITY</div>
+        </div>
       </div>
-      <div class="brandCopy">
-        <div class="brandTitle">TRAINING ATTENDANCE</div>
-        <div class="brandSub">PEOPLE · DISCIPLINE · COMMUNITY</div>
+      <h2>Вход</h2>
+      <p class="muted">Один аккаунт = одинаковые данные на телефоне и компьютере.</p>
+      <label>Email<input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" /></label>
+      <label>Пароль<input id="authPassword" type="password" autocomplete="current-password" placeholder="Минимум 6 символов" /></label>
+      <div class="auth-actions">
+        <button id="signInBtn" class="btn primary">Войти</button>
+        <button id="signUpBtn" class="btn secondary">Создать аккаунт</button>
       </div>
+      <div id="authMsg" class="form-msg"></div>
     </div>
-  </section>
-
-  <main class="content">
-    <h1>Посещаемость</h1>
-
-    <div class="filters">
-      <div class="controlBox"><input id="monthPicker" type="month" aria-label="Месяц"></div>
-      <div class="controlBox"><select id="groupFilter" aria-label="Группа"><option value="">Все группы</option></select></div>
-    </div>
-
-    <button class="addChild" id="addBtn">+ Ребёнок</button>
-
-    <div class="calendarCard">
-      <div class="calendarLabel">Выбрать день тренировки</div>
-      <input class="calendarInput" id="datePicker" type="date" aria-label="Выбрать дату">
-      <div class="selectedLabel" id="dateLabel"></div>
-    </div>
-
-    <div class="summary">
-      <div class="stat"><div class="num" id="total">0</div><div class="label">Ребят</div></div>
-      <div class="stat"><div class="num" id="came">0</div><div class="label">Пришли</div></div>
-      <div class="stat"><div class="num" id="rate">0%</div><div class="label">Итог дня</div></div>
-    </div>
-
-    <section class="tableCard">
-      <div class="tableHead"><div>#</div><div>Имя</div><div>Группа</div><div>Посещаемость</div><div>Итог</div></div>
-      <div id="list"></div>
-    </section>
-
-    <section class="dataCard">
-      <div class="dataTitle">Резервная копия</div>
-      <div class="dataText">Сохрани данные в файл, чтобы восстановить список ребят и историю посещаемости на другом устройстве.</div>
-      <div class="dataActions"><button class="toolBtn" id="backupBtn">Скачать копию</button><button class="toolBtn" id="restoreBtn">Восстановить</button></div>
-      <input class="fileInput" id="restoreFile" type="file" accept="application/json,.json">
-      <div class="status" id="dbStatus"></div>
-    </section>
-  </main>
-</div>
-
-<div class="modal" id="modal">
-  <div class="sheet">
-    <h2 id="modalTitle">Добавить ребёнка</h2>
-    <input type="hidden" id="editId">
-    <div class="field"><label>Имя</label><input id="name" placeholder="Например: Angelina Pavlova"></div>
-    <div class="field"><label>Группа</label><input id="group" placeholder="Например: KURISTIKU"></div>
-    <div class="field"><label>Телефон родителя</label><input id="phone" type="tel" placeholder="+372 ..."></div>
-    <div class="field"><label>Заметка</label><textarea id="note" placeholder="Необязательно"></textarea></div>
-    <div class="modalBtns"><button class="modalBtn secondary" id="cancelBtn">Отмена</button><button class="modalBtn primary" id="saveBtn">Сохранить</button></div>
-    <button id="deleteBtn" class="deleteFull" style="display:none">Удалить ребёнка</button>
   </div>
-</div>
 
-<script>
-const DB_NAME='training-attendance-db';
-const DB_VERSION=1;
-const STORE='app';
-const STATE_KEY='state';
-let db=null;
-let data={students:[]};
-let selectedDate=localDateKey(new Date());
-const $=id=>document.getElementById(id);
-
-function localDateKey(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
-function parseDateKey(key){const [y,m,d]=String(key).split('-').map(Number);return new Date(y,m-1,d)}
-function formatDate(key){const d=parseDateKey(key);if(Number.isNaN(d.getTime()))return key;return d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
-function monthPrefix(key){return String(key).slice(0,7)}
-function makeId(){return (globalThis.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+'-'+Math.random().toString(16).slice(2)}
-function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-
-function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE)};req.onsuccess=()=>{db=req.result;resolve(db)};req.onerror=()=>reject(req.error)})}
-function dbGet(key){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly'),r=tx.objectStore(STORE).get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
-function dbSet(key,value){return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(value,key);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
-async function save(){try{await dbSet(STATE_KEY,data);$('dbStatus').textContent='Данные сохранены на устройстве.'}catch(e){console.error(e);$('dbStatus').textContent='Ошибка сохранения данных.'}}
-function normaliseState(raw){
-  const out={students:[]};
-  if(raw&&Array.isArray(raw.students)){
-    out.students=raw.students.map(s=>({id:String(s.id||makeId()),name:String(s.name||''),group:String(s.group||''),phone:String(s.phone||''),note:String(s.note||''),attendance:(s.attendance&&typeof s.attendance==='object')?s.attendance:{}})).filter(s=>s.name);
-  }
-  return out;
-}
-function migrateLegacy(){
-  try{
-    const old1=JSON.parse(localStorage.getItem('training-attendance-v1')||'null');
-    if(old1?.students?.length)return normaliseState(old1);
-    const old4=JSON.parse(localStorage.getItem('attendanceV4')||'null');
-    if(old4?.children?.length)return {students:old4.children.map(c=>({id:String(c.id||makeId()),name:String(c.name||''),group:String(c.group||''),phone:'',note:String(c.comment||''),attendance:{}})).filter(s=>s.name)};
-  }catch(e){console.warn('Legacy migration skipped',e)}
-  return null;
-}
-
-async function init(){
-  try{
-    await openDB();
-    const stored=await dbGet(STATE_KEY);
-    if(stored){data=normaliseState(stored)}else{data=migrateLegacy()||{students:[]};await save()}
-    $('datePicker').value=selectedDate;
-    $('monthPicker').value=monthPrefix(selectedDate);
-    $('datePicker').addEventListener('change',()=>{if($('datePicker').value){selectedDate=$('datePicker').value;$('monthPicker').value=monthPrefix(selectedDate);render()}});
-    $('monthPicker').addEventListener('change',()=>{const m=$('monthPicker').value;if(m){const day=selectedDate.slice(8,10)||'01';const candidate=`${m}-${day}`;const d=parseDateKey(candidate);selectedDate=(d.getMonth()+1===Number(m.slice(5,7)))?candidate:`${m}-01`;$('datePicker').value=selectedDate;render()}});
-    $('groupFilter').addEventListener('change',render);
-    $('addBtn').addEventListener('click',()=>openModal());
-    $('cancelBtn').addEventListener('click',closeModal);
-    $('saveBtn').addEventListener('click',saveStudent);
-    $('deleteBtn').addEventListener('click',deleteStudent);
-    $('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
-    $('backupBtn').addEventListener('click',backupData);
-    $('restoreBtn').addEventListener('click',()=>$('restoreFile').click());
-    $('restoreFile').addEventListener('change',restoreData);
-    render();
-  }catch(e){console.error(e);$('dbStatus').textContent='Не удалось открыть локальную базу данных.';alert('Не удалось открыть базу данных на этом устройстве.')}
-}
-
-function updateGroupFilter(){
-  const current=$('groupFilter').value;
-  const groups=[...new Set(data.students.map(s=>s.group.trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ru'));
-  $('groupFilter').innerHTML='<option value="">Все группы</option>'+groups.map(g=>`<option value="${esc(g)}">${esc(g)}</option>`).join('');
-  if(groups.includes(current))$('groupFilter').value=current;
-}
-function monthRate(student,month){let p=0,a=0;Object.entries(student.attendance||{}).forEach(([k,v])=>{if(k.startsWith(month)){if(v==='p')p++;if(v==='a')a++}});return p+a?Math.round(p/(p+a)*100):0}
-
-function render(){
-  updateGroupFilter();
-  $('dateLabel').textContent='Выбрано: '+formatDate(selectedDate);
-  const group=$('groupFilter').value;
-  const list=data.students.filter(s=>!group||s.group===group);
-  $('total').textContent=list.length;
-  const came=list.filter(s=>s.attendance?.[selectedDate]==='p').length;
-  const absent=list.filter(s=>s.attendance?.[selectedDate]==='a').length;
-  $('came').textContent=came;
-  $('rate').textContent=(came+absent?Math.round(came/(came+absent)*100):0)+'%';
-  const el=$('list');el.innerHTML='';
-  if(!list.length){el.innerHTML='<div class="empty">Пока нет ребят в этой группе.<br>Нажми «+ Ребёнок», чтобы добавить.</div>';return}
-  const month=monthPrefix(selectedDate);
-  list.forEach((s,index)=>{
-    const status=s.attendance?.[selectedDate];
-    const div=document.createElement('div');div.className='studentRow';
-    div.innerHTML=`
-      <div class="idx">${index+1}</div>
-      <div class="name">${esc(s.name)}</div>
-      <div><span class="groupTag">${esc(s.group||'—')}</span></div>
-      <div class="attendanceBtns">
-        <button class="markBtn present ${status==='p'?'active':''}" data-action="mark" data-id="${esc(s.id)}" data-status="p" aria-label="Пришёл">✓</button>
-        <button class="markBtn absent ${status==='a'?'active':''}" data-action="mark" data-id="${esc(s.id)}" data-status="a" aria-label="Отсутствует">×</button>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo-mark"><span>GCB</span><b>ESTONIA</b></div>
+        <div>
+          <div class="brand-title">TRAINING ATTENDANCE</div>
+          <div class="brand-sub">PEOPLE · DISCIPLINE · COMMUNITY</div>
+        </div>
       </div>
-      <div class="totalRate">${monthRate(s,month)}%</div>
-      <div class="rowActions">
-        ${status?`<button class="smallBtn" data-action="clear" data-id="${esc(s.id)}">Сбросить день</button>`:''}
-        <button class="smallBtn" data-action="edit" data-id="${esc(s.id)}">Изменить</button>
-        <button class="smallBtn danger" data-action="delete" data-id="${esc(s.id)}">Удалить</button>
-      </div>`;
-    el.appendChild(div);
-  });
-  el.querySelectorAll('[data-action]').forEach(btn=>btn.addEventListener('click',async()=>{
-    const id=btn.dataset.id,action=btn.dataset.action;
-    if(action==='mark')await mark(id,btn.dataset.status);
-    if(action==='clear')await clearAttendance(id);
-    if(action==='edit')openModal(id);
-    if(action==='delete')await deleteStudentById(id);
-  }));
-}
+      <div id="syncBadge" class="sync-badge local">● Локально</div>
+    </header>
 
-async function mark(id,status){const s=data.students.find(x=>x.id===id);if(!s)return;if(!s.attendance)s.attendance={};s.attendance[selectedDate]=status;await save();render()}
-async function clearAttendance(id){const s=data.students.find(x=>x.id===id);if(!s?.attendance)return;delete s.attendance[selectedDate];await save();render()}
-function openModal(id=null){
-  $('modal').classList.add('show');$('editId').value=id||'';$('modalTitle').textContent=id?'Изменить ребёнка':'Добавить ребёнка';$('deleteBtn').style.display=id?'block':'none';
-  const s=id&&data.students.find(x=>x.id===id);$('name').value=s?.name||'';$('group').value=s?.group||'';$('phone').value=s?.phone||'';$('note').value=s?.note||'';
-}
-function closeModal(){$('modal').classList.remove('show')}
-async function saveStudent(){
-  const name=$('name').value.trim();if(!name)return alert('Введите имя');
-  const id=$('editId').value,s=id&&data.students.find(x=>x.id===id);
-  if(s){s.name=name;s.group=$('group').value.trim();s.phone=$('phone').value.trim();s.note=$('note').value.trim()}
-  else data.students.push({id:makeId(),name,group:$('group').value.trim(),phone:$('phone').value.trim(),note:$('note').value.trim(),attendance:{}});
-  await save();closeModal();render();
-}
-async function deleteStudent(){const id=$('editId').value;if(id)await deleteStudentById(id,true)}
-async function deleteStudentById(id,closeAfter=false){const s=data.students.find(x=>x.id===id);if(!s)return;if(confirm(`Удалить ребёнка «${s.name}»? Все его отметки посещаемости тоже будут удалены.`)){data.students=data.students.filter(x=>x.id!==id);await save();if(closeAfter)closeModal();render()}}
-function backupData(){const payload={app:'training-attendance',version:3,exportedAt:new Date().toISOString(),data};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`attendance-backup-${localDateKey(new Date())}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);$('dbStatus').textContent='Резервная копия создана.'}
-async function restoreData(e){const file=e.target.files?.[0];if(!file)return;try{const parsed=JSON.parse(await file.text());const raw=parsed?.data?.students?parsed.data:parsed;const restored=normaliseState(raw);if(!Array.isArray(restored.students))throw new Error('Bad backup');if(!confirm(`Восстановить резервную копию? Текущие данные будут заменены. Ребят в копии: ${restored.students.length}.`)){e.target.value='';return}data=restored;await save();render();$('dbStatus').textContent='Данные восстановлены из резервной копии.'}catch(err){console.error(err);alert('Не удалось восстановить файл. Выберите резервную копию JSON.')}e.target.value=''}
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
-init();
-</script>
+    <section id="view" class="view"></section>
+
+    <nav class="bottom-nav" aria-label="Навигация">
+      <button data-nav="attendance" class="nav-item active"><span>⌂</span><small>Главная</small></button>
+      <button data-nav="groups" class="nav-item"><span>👥</span><small>Группы</small></button>
+      <button data-nav="children" class="nav-item"><span>♙</span><small>Дети</small></button>
+      <button data-nav="more" class="nav-item"><span>•••</span><small>Ещё</small></button>
+    </nav>
+  </main>
+
+  <dialog id="modal" class="modal"></dialog>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
