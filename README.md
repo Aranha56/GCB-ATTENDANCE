@@ -51,3 +51,7 @@ GitHub Pages хранит только сам сайт. Для общей баз
 `firebaseConfig` не является паролем. Защита данных обеспечивается Firebase Authentication + правилами Firestore из `FIRESTORE_RULES.txt`.
 
 Файл `design-reference.png` внутри ZIP — визуальный референс утверждённого интерфейса.
+
+
+## Logo fix
+The GCB logo is embedded directly in `index.html` so it remains visible on GitHub Pages even if asset paths are handled differently. The original `assets/GCB.png` is also kept.
