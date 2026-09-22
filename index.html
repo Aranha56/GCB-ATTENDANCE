@@ -3,72 +3,118 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#efe4d3">
 <link rel="manifest" href="manifest.webmanifest">
 <title>GCB Estonia — Training Attendance</title>
 <style>
 :root{
-  --bg:#f5f7fa;--card:#fff;--text:#182033;--muted:#718096;--line:#dfe4ec;
-  --red:#be111b;--red-soft:#fff1f2;--green:#2ca64a;--green-soft:#e7f7eb;
-  --blue:#2672ea;--dark:#536078;--shadow:0 1px 2px rgba(16,24,40,.04)
+  --bg:#efe4d3;
+  --bg-soft:#f7f0e7;
+  --card:rgba(255,255,255,.88);
+  --card-strong:#fffaf4;
+  --text:#1c2233;
+  --muted:#766e6a;
+  --line:#dbc7b5;
+  --burgundy:#8f1e2d;
+  --burgundy-dark:#6f1622;
+  --burgundy-soft:#f6e4e6;
+  --green:#2ca64a;
+  --green-soft:#e6f3e5;
+  --shadow:0 10px 30px rgba(50,34,24,.10);
+  --shadow-soft:0 4px 12px rgba(50,34,24,.08);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+html,body{margin:0;background:linear-gradient(180deg,#efe4d3 0%, #f6efe8 56%, #f8f3ed 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
 button,input,select,textarea{font:inherit}
-.app{max-width:760px;margin:0 auto;min-height:100vh;padding-bottom:28px}
-.brand{background:#fff;padding:28px 22px 24px;border-bottom:1px solid var(--line)}
-.brandRow{display:flex;align-items:center;gap:24px}
+a{text-decoration:none;color:inherit}
+.app{max-width:860px;margin:0 auto;min-height:100vh;padding-bottom:28px;background:transparent}
+.brand{background:transparent}
+.headerBar{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 22px 8px;position:relative;z-index:3}
 .logo{display:flex;align-items:flex-start;gap:5px;min-width:165px}
-.logoMark{width:54px;height:54px;border:4px solid #181818;border-top:0;border-radius:0 0 50% 50%;position:relative;margin-top:14px}
-.logoMark:before,.logoMark:after{content:"";position:absolute;width:18px;height:18px;border:4px solid #181818;border-radius:50%;bottom:-13px;background:#fff}
-.logoMark:before{left:5px}.logoMark:after{right:5px}
-.logoText{font-weight:800;font-size:18px;white-space:nowrap;margin-left:-51px;margin-top:0;position:relative;z-index:2;background:#fff;padding:0 2px}
-.logoText .gcb{color:var(--red)}
-.brandCopy{min-width:0}
-.brandTitle{font-size:19px;letter-spacing:.28em;font-weight:800;color:var(--dark);white-space:nowrap}
-.brandSub{margin-top:12px;font-size:11px;letter-spacing:.28em;color:#a1acbd;white-space:nowrap}
-.content{padding:24px 22px}
-h1{font-size:35px;line-height:1.05;margin:0 0 22px;font-weight:850;letter-spacing:-.02em}
+.logoMark{width:76px;height:76px;border:4px solid #181818;border-top:0;border-radius:0 0 50% 50%;position:relative;margin-top:18px}
+.logoMark:before,.logoMark:after{content:"";position:absolute;width:20px;height:20px;border:4px solid #181818;border-radius:50%;bottom:-15px;background:transparent}
+.logoMark:before{left:8px}.logoMark:after{right:8px}
+.logoMark .leftRing,.logoMark .rightRing{position:absolute;top:24px;width:24px;height:24px;border:4px solid #181818;border-radius:50%;background:transparent}
+.logoMark .leftRing{left:-16px}.logoMark .rightRing{right:-16px}
+.logoText{font-weight:800;font-size:18px;white-space:nowrap;margin-left:-73px;margin-top:0;position:relative;z-index:2;padding:0 2px;letter-spacing:.02em}
+.logoText .gcb{color:#b92228}
+.menuBtn{width:56px;height:56px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;align-self:center;margin-top:4px}
+.menuBtn span,.menuBtn:before,.menuBtn:after{content:"";display:block;width:34px;height:4px;border-radius:99px;background:var(--burgundy);position:absolute}
+.menuBtn span{transform:translateY(0)}
+.menuBtn:before{transform:translateY(-11px)}
+.menuBtn:after{transform:translateY(11px)}
+.hero{position:relative;min-height:430px;border-top:1px solid rgba(255,255,255,.25);border-bottom:1px solid rgba(0,0,0,.03);overflow:hidden;background:#bda593}
+.hero:before{content:"";position:absolute;inset:0;background:
+ linear-gradient(90deg, rgba(53,19,26,.55) 0%, rgba(67,28,40,.38) 28%, rgba(51,44,60,.18) 55%, rgba(255,255,255,.06) 100%),
+ linear-gradient(180deg, rgba(255,255,255,.02) 0%, rgba(17,17,17,.12) 100%),
+ url('hero-bg.jpg') center/cover no-repeat;filter:saturate(.92) contrast(.97)}
+.heroInner{position:relative;z-index:1;display:flex;align-items:flex-end;min-height:430px;padding:28px 22px 36px}
+.heroCopy{max-width:650px;color:#fff7ef;text-shadow:0 2px 10px rgba(0,0,0,.15)}
+.kicker{font-size:15px;letter-spacing:.34em;text-transform:uppercase;font-weight:700;opacity:.9;margin-bottom:24px}
+.heroTitle{font-size:76px;line-height:.95;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;margin:0}
+.heroTitle .small{display:block;font-size:57px;line-height:1.0;margin-top:16px;color:#f4e8dd}
+.heroText{margin:24px 0 0;max-width:560px;font-size:20px;line-height:1.45;color:rgba(255,247,239,.95)}
+.contentShell{position:relative;margin-top:-28px;padding:0 14px}
+.content{background:rgba(246,239,232,.92);backdrop-filter: blur(5px);border-radius:28px 28px 0 0;padding:26px 18px 24px;box-shadow:0 -10px 30px rgba(59,38,31,.08)}
+.sectionLabel{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,250,244,.72);border:1px solid rgba(219,199,181,.85);box-shadow:var(--shadow-soft);color:var(--burgundy-dark);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+h1{font-size:40px;line-height:1.02;margin:0 0 20px;font-weight:900;letter-spacing:-.03em;color:#1d2230}
 .filters{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.controlBox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:0 14px;min-height:58px;display:flex;align-items:center;box-shadow:var(--shadow)}
+.controlBox{background:var(--card-strong);border:1px solid var(--line);border-radius:18px;padding:0 16px;min-height:62px;display:flex;align-items:center;box-shadow:var(--shadow-soft)}
 .controlBox input,.controlBox select{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:18px;min-width:0}
-.addChild{width:100%;border:0;border-radius:15px;background:var(--red);color:#fff;font-size:19px;font-weight:800;padding:17px 18px;margin:4px 0 18px;cursor:pointer}
-.calendarCard{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px 16px;margin-bottom:18px;box-shadow:var(--shadow)}
-.calendarLabel{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+.addChild{width:100%;border:0;border-radius:17px;background:linear-gradient(180deg,var(--burgundy) 0%, var(--burgundy-dark) 100%);color:#fff;font-size:20px;font-weight:850;padding:17px 18px;margin:6px 0 18px;cursor:pointer;box-shadow:0 10px 24px rgba(143,30,45,.18)}
+.calendarCard{background:var(--card-strong);border:1px solid var(--line);border-radius:18px;padding:15px 16px;margin-bottom:18px;box-shadow:var(--shadow-soft)}
+.calendarLabel{font-size:12px;color:var(--burgundy-dark);font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px}
 .calendarInput{width:100%;border:0;outline:0;background:transparent;font-size:20px;color:var(--text);min-height:44px;padding:0}
 .selectedLabel{font-size:13px;color:var(--muted);margin-top:6px}
-.tableCard{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
-.tableHead,.studentRow{display:grid;grid-template-columns:34px minmax(115px,1.5fr) minmax(88px,1fr) 96px 58px;align-items:center;gap:8px}
-.tableHead{padding:14px 12px;background:#fbfcfe;color:#4e5a70;font-weight:800;font-size:14px;border-bottom:1px solid var(--line)}
-.studentRow{padding:15px 12px;border-bottom:1px solid var(--line);min-height:82px}
-.studentRow:last-child{border-bottom:0}
-.idx{font-size:17px;color:#20283a}
-.name{font-size:17px;font-weight:800;line-height:1.16;word-break:break-word}
-.groupTag{display:inline-flex;align-items:center;justify-content:center;background:var(--green-soft);border-radius:11px;padding:8px 10px;font-weight:800;font-size:12px;letter-spacing:.05em;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.attendanceBtns{display:flex;gap:6px;align-items:center}
-.markBtn{width:38px;height:38px;border-radius:50%;border:2px solid #d4dbe6;background:#fff;color:#9aa5b5;font-size:21px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer}
-.markBtn.present.active{background:var(--green);border-color:var(--green);color:#fff}
-.markBtn.absent.active{background:#e62d35;border-color:#e62d35;color:#fff}
-.totalRate{font-weight:850;font-size:14px;text-align:center}
-.rowActions{grid-column:2 / -1;display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.smallBtn{border:1px solid var(--line);background:#fff;color:#4e5a70;border-radius:9px;padding:7px 9px;font-size:12px;font-weight:700;cursor:pointer}
-.smallBtn.danger{color:#a51d26;background:#fff5f5;border-color:#f2c9cc}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
-.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;text-align:center}
-.stat .num{font-size:20px;font-weight:850}.stat .label{font-size:11px;color:var(--muted);margin-top:3px}
+.stat{background:rgba(255,250,244,.86);border:1px solid var(--line);border-radius:17px;padding:14px 12px;text-align:center;box-shadow:var(--shadow-soft)}
+.stat .num{font-size:22px;font-weight:900;color:var(--burgundy-dark)}
+.stat .label{font-size:11px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.08em}
+.tableCard{background:rgba(255,250,244,.92);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.tableHead,.studentRow{display:grid;grid-template-columns:34px minmax(115px,1.5fr) minmax(88px,1fr) 96px 58px;align-items:center;gap:8px}
+.tableHead{padding:15px 12px;background:rgba(248,239,228,.95);color:#655d5a;font-weight:900;font-size:14px;border-bottom:1px solid var(--line)}
+.studentRow{padding:15px 12px;border-bottom:1px solid rgba(219,199,181,.8);min-height:82px;background:rgba(255,255,255,.65)}
+.studentRow:nth-child(even){background:rgba(252,247,241,.8)}
+.studentRow:last-child{border-bottom:0}
+.idx{font-size:17px;color:#312e36}
+.name{font-size:17px;font-weight:850;line-height:1.16;word-break:break-word}
+.groupTag{display:inline-flex;align-items:center;justify-content:center;background:var(--green-soft);border:1px solid #d5e8d2;border-radius:12px;padding:8px 10px;font-weight:900;font-size:12px;letter-spacing:.05em;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#233229}
+.attendanceBtns{display:flex;gap:6px;align-items:center}
+.markBtn{width:38px;height:38px;border-radius:50%;border:2px solid #d8d0cb;background:#fff;color:#a59c96;font-size:21px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.markBtn.present.active{background:var(--green);border-color:var(--green);color:#fff}
+.markBtn.absent.active{background:#d62839;border-color:#d62839;color:#fff}
+.totalRate{font-weight:900;font-size:14px;text-align:center;color:#372630}
+.rowActions{grid-column:2 / -1;display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.smallBtn{border:1px solid var(--line);background:#fff8f2;color:#5c5653;border-radius:10px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer}
+.smallBtn.danger{color:#a51d26;background:#fff1f2;border-color:#edc8cd}
 .empty{padding:38px 18px;text-align:center;color:var(--muted)}
-.dataCard{background:#fff;border:1px solid var(--line);border-radius:17px;padding:16px;margin-top:18px}
-.dataTitle{font-weight:850;font-size:15px}.dataText{font-size:12px;color:var(--muted);line-height:1.45;margin:7px 0 11px}
-.dataActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toolBtn{border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--text);padding:11px;font-weight:750;cursor:pointer}.fileInput{display:none}.status{font-size:12px;color:var(--muted);margin-top:8px;min-height:15px}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:20;align-items:flex-end}.modal.show{display:flex}.sheet{background:#fff;width:100%;max-width:760px;margin:0 auto;border-radius:24px 24px 0 0;padding:20px;max-height:90vh;overflow:auto}.sheet h2{margin:0 0 14px}
-.field{margin:12px 0}.field label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:#fff}.field textarea{min-height:78px}.modalBtns{display:flex;gap:8px;margin-top:14px}.modalBtn{flex:1;border:0;border-radius:12px;padding:13px;font-weight:800}.primary{background:var(--red);color:#fff}.secondary{background:#eef1f5;color:var(--text)}.deleteFull{width:100%;margin-top:9px;background:#fff0f1;color:#a51d26;border:1px solid #f2c9cc;border-radius:12px;padding:13px;font-weight:800}
+.dataCard{background:rgba(255,250,244,.88);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:18px;box-shadow:var(--shadow-soft)}
+.dataTitle{font-weight:900;font-size:15px;color:#2b2430}
+.dataText{font-size:12px;color:var(--muted);line-height:1.45;margin:7px 0 11px}
+.dataActions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.toolBtn{border:1px solid var(--line);border-radius:12px;background:#fff8f2;color:var(--text);padding:12px;font-weight:800;cursor:pointer}
+.fileInput{display:none}
+.status{font-size:12px;color:var(--muted);margin-top:8px;min-height:15px}
+.modal{display:none;position:fixed;inset:0;background:rgba(34,20,16,.45);z-index:20;align-items:flex-end}
+.modal.show{display:flex}
+.sheet{background:#fffaf4;width:100%;max-width:760px;margin:0 auto;border-radius:24px 24px 0 0;padding:20px;max-height:90vh;overflow:auto;box-shadow:0 -20px 40px rgba(0,0,0,.18)}
+.sheet h2{margin:0 0 14px;color:#281f2a}
+.field{margin:12px 0}.field label{display:block;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.field input,.field textarea,.field select{width:100%;padding:13px;border:1px solid var(--line);border-radius:12px;font-size:16px;background:#fff}
+.field textarea{min-height:78px}
+.modalBtns{display:flex;gap:8px;margin-top:14px}.modalBtn{flex:1;border:0;border-radius:12px;padding:13px;font-weight:900}.primary{background:var(--burgundy);color:#fff}.secondary{background:#efe8df;color:var(--text)}
+.deleteFull{width:100%;margin-top:9px;background:#fff1f2;color:#a51d26;border:1px solid #f2c9cc;border-radius:12px;padding:13px;font-weight:900}
+.footerNote{font-size:11px;color:var(--muted);text-align:center;padding:16px 10px 0}
+@media(max-width:700px){
+  .hero{min-height:360px}.heroInner{min-height:360px;padding:24px 18px 30px}.heroTitle{font-size:58px}.heroTitle .small{font-size:44px;margin-top:12px}.heroText{font-size:17px;max-width:420px}.kicker{font-size:13px;letter-spacing:.25em}
+}
 @media(max-width:600px){
-  .brand{padding:24px 18px}.brandRow{gap:14px}.logo{min-width:145px}.logoText{font-size:16px}.brandTitle{font-size:16px;letter-spacing:.21em}.brandSub{font-size:9px;letter-spacing:.22em}
-  .content{padding:22px 14px}h1{font-size:32px}.filters{grid-template-columns:1fr 1fr}.controlBox input,.controlBox select{font-size:16px}
+  .headerBar{padding:18px 16px 6px}.logo{min-width:145px}.logoMark{width:66px;height:66px;margin-top:18px}.logoText{font-size:16px;margin-left:-64px}.menuBtn{width:52px;height:52px}
+  .contentShell{padding:0 10px}.content{padding:22px 14px 24px}h1{font-size:32px}.filters{grid-template-columns:1fr 1fr}.controlBox input,.controlBox select{font-size:16px}
   .tableHead,.studentRow{grid-template-columns:28px minmax(100px,1.25fr) minmax(76px,.9fr) 84px 50px;gap:6px}.tableHead{font-size:12px;padding:13px 8px}.studentRow{padding:14px 8px}.name{font-size:15px}.groupTag{font-size:10px;padding:7px 7px}.markBtn{width:34px;height:34px;font-size:19px}.totalRate{font-size:12px}
 }
-@media(max-width:390px){
-  .brandRow{align-items:flex-start;gap:8px}.logo{min-width:124px}.logoMark{transform:scale(.86);transform-origin:left top}.logoText{font-size:14px;margin-left:-48px}.brandTitle{font-size:13px;letter-spacing:.18em}.brandSub{font-size:8px;letter-spacing:.18em;margin-top:8px}
+@media(max-width:420px){
+  .logoMark{transform:scale(.92);transform-origin:left top}.logoText{font-size:14px;margin-left:-61px}.hero{min-height:330px}.heroInner{min-height:330px}.heroTitle{font-size:48px}.heroTitle .small{font-size:36px}.heroText{font-size:15px;line-height:1.4}.kicker{font-size:11px;letter-spacing:.22em;margin-bottom:18px}
   .filters{grid-template-columns:1fr}.tableCard{overflow-x:auto}.tableHead,.studentRow{min-width:520px}.summary{grid-template-columns:1fr 1fr 1fr;gap:6px}.stat{padding:10px 5px}.stat .num{font-size:18px}
 }
 </style>
@@ -76,19 +122,27 @@ h1{font-size:35px;line-height:1.05;margin:0 0 22px;font-weight:850;letter-spacin
 <body>
 <div class="app">
   <section class="brand">
-    <div class="brandRow">
+    <div class="headerBar">
       <div class="logo" aria-label="GCB Estonia">
-        <div class="logoMark"></div>
+        <div class="logoMark"><span class="leftRing"></span><span class="rightRing"></span></div>
         <div class="logoText"><span class="gcb">GCB</span>ESTONIA</div>
       </div>
-      <div class="brandCopy">
-        <div class="brandTitle">TRAINING ATTENDANCE</div>
-        <div class="brandSub">PEOPLE · DISCIPLINE · COMMUNITY</div>
+      <button class="menuBtn" type="button" aria-label="Меню"><span></span></button>
+    </div>
+    <div class="hero">
+      <div class="heroInner">
+        <div class="heroCopy">
+          <div class="kicker">People · Discipline · Community</div>
+          <h2 class="heroTitle">ATTENDANCE <span class="small">TRAINING JOURNAL.</span></h2>
+          <p class="heroText">Ведение посещаемости для GCB Estonia: календарь, группы, список ребят и быстрые отметки за выбранный день.</p>
+        </div>
       </div>
     </div>
   </section>
 
+  <div class="contentShell">
   <main class="content">
+    <div class="sectionLabel">GCB Estonia · Attendance</div>
     <h1>Посещаемость</h1>
 
     <div class="filters">
@@ -96,7 +150,7 @@ h1{font-size:35px;line-height:1.05;margin:0 0 22px;font-weight:850;letter-spacin
       <div class="controlBox"><select id="groupFilter" aria-label="Группа"><option value="">Все группы</option></select></div>
     </div>
 
-    <button class="addChild" id="addBtn">+ Ребёнок</button>
+    <button class="addChild" id="addBtn">+ Добавить студента</button>
 
     <div class="calendarCard">
       <div class="calendarLabel">Выбрать день тренировки</div>
@@ -122,7 +176,10 @@ h1{font-size:35px;line-height:1.05;margin:0 0 22px;font-weight:850;letter-spacin
       <input class="fileInput" id="restoreFile" type="file" accept="application/json,.json">
       <div class="status" id="dbStatus"></div>
     </section>
+
+    <div class="footerNote">Дизайн адаптирован под стиль GCB.ee, функциональность журнала сохранена.</div>
   </main>
+  </div>
 </div>
 
 <div class="modal" id="modal">
@@ -137,7 +194,6 @@ h1{font-size:35px;line-height:1.05;margin:0 0 22px;font-weight:850;letter-spacin
     <button id="deleteBtn" class="deleteFull" style="display:none">Удалить ребёнка</button>
   </div>
 </div>
-
 <script>
 const DB_NAME='training-attendance-db';
 const DB_VERSION=1;

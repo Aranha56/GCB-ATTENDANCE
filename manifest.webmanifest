@@ -1,9 +1,9 @@
 {
-  "name": "Тренировка — посещаемость",
-  "short_name": "Посещаемость",
+  "name": "GCB Estonia — Посещаемость",
+  "short_name": "GCB Attendance",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f4f6f8",
-  "theme_color": "#111827",
+  "background_color": "#efe4d3",
+  "theme_color": "#efe4d3",
   "lang": "ru"
 }
